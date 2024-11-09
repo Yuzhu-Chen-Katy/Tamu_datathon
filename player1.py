@@ -2,7 +2,8 @@ from flask import Flask, request, jsonify
 from PushBattle import Game, PLAYER1, PLAYER2, EMPTY, BOARD_SIZE, NUM_PIECES, _torus
 
 # Import This
-# from <AGENT FILENAME> import <AGENT CLASSNAME>
+#from random_agent import RandomAgent
+from MCTSAgent import MCTSAgent
 
 app = Flask(__name__)
 
@@ -32,7 +33,7 @@ def start_game():
 
     ##### MODIFY BELOW #####
 
-    # agent = RandomAgent()
+    agent = MCTSAgent()
 
     ###################
     
@@ -76,7 +77,24 @@ def make_move():
     # Move logic should go here
     # This is where you'd call your minimax/MCTS/neural network/etc
 
-    # move = agent.get_best_move(game)
+    move = agent.get_best_move(game)
+
+    """
+    import pickle
+    from mcts import mcts
+
+    # Load the saved MCTS tree
+    with open('mcts_tree.pkl', 'rb') as f:
+        mcts_searcher = pickle.load(f)
+
+    # Initialize the game state (it could be the same or a new one)
+    initial_state = GameState('initial_state')
+
+    # Now that the tree is loaded, we can immediately use it to predict the best action
+    best_action = mcts_searcher.search(initial_state=initial_state)
+
+    print(f"The best action after loading the tree is: {best_action}")
+    """
 
     ###################
     
