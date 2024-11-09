@@ -1,9 +1,8 @@
 import pickle
-from mcts.base.base import BaseState, BaseAction
+from mcts.base.base import BaseState
 from mcts.searcher.mcts import MCTS
 from copy import deepcopy
 import numpy as np
-#from PushBattle import Game, PLAYER1, PLAYER2, EMPTY, BOARD_SIZE, NUM_PIECES, _torus, chess_notation_to_array, array_to_chess_notation
 
 
 # GLOBAL VARIABLES
@@ -187,7 +186,7 @@ class MyState(BaseState):
 
 
 initial_state = MyState()
-searcher = MCTS(time_limit=4000)
+searcher = MCTS(time_limit=2000)
 for i in range(10):
   searcher.search(initial_state=initial_state)
 

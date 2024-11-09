@@ -2,7 +2,7 @@ from flask import Flask, request, jsonify
 from PushBattle import Game, PLAYER1, PLAYER2, EMPTY, BOARD_SIZE, NUM_PIECES, _torus
 
 # Import This
-from random_agent import RandomAgent
+#from random_agent import RandomAgent
 from MCTSAgent import MCTSAgent
 
 app = Flask(__name__)
@@ -33,7 +33,7 @@ def start_game():
 
     ##### MODIFY BELOW #####
 
-    agent = RandomAgent()
+    agent = MCTSAgent()
 
     ###################
     
