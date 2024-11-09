@@ -1,3 +1,4 @@
+import pickle
 from mcts.base.base import BaseState, BaseAction
 from mcts.searcher.mcts import MCTS
 from copy import deepcopy
@@ -21,14 +22,25 @@ def _torus(r, c):
   return rt, ct
 
 class MyState(BaseState):
-  def __init__(self):
-    self.board = np.full((BOARD_SIZE, BOARD_SIZE), 0)   # Board represented as a np array of empty spaces (0s)
-    self.current_player = PLAYER1                       # Player that has the current move
-    self.turn_count = 0                                 # Number of turns elapsed in the game
-    self.p1_pieces = 0                                  # Number of pieces that Player1 has placed on the board
-    self.p2_pieces = 0                                  # Number of pieces that Player2 has placed on the board
-    self.p1win = False
-    self.p2win = False
+  def __init__(self, game=None):
+    if (game == None):
+      self.board = np.full((BOARD_SIZE, BOARD_SIZE), 0)   # Board represented as a np array of empty spaces (0s)
+      self.current_player = PLAYER1                       # Player that has the current move
+      self.turn_count = 0                                 # Number of turns elapsed in the game
+      self.p1_pieces = 0                                  # Number of pieces that Player1 has placed on the board
+      self.p2_pieces = 0                                  # Number of pieces that Player2 has placed on the board
+      self.p1win = False
+      self.p2win = False
+    else:
+      self.board = game.board
+      self.current_player = game.current_player
+      self.turn_count = game.turn_count
+      self.p1_pieces = game.p1_pieces
+      self.p2_pieces = game.p2_pieces
+      self.p1win = False
+      self.p2win = False
+
+
   
   def get_possible_actions(self) -> [any]:
     """Returns list of all possible moves in current state."""
@@ -177,7 +189,10 @@ class MyState(BaseState):
 initial_state = MyState()
 searcher = MCTS(time_limit=4000)
 for i in range(10):
-    searcher.search(initial_state=initial_state)
+  searcher.search(initial_state=initial_state)
 
-bestAction = searcher.search(initial_state=initial_state)
-print(bestAction)
+with open('MCTSTree.pkl', 'wb') as mctsFile:
+  pickle.dump(searcher, mctsFile) 
+
+# bestAction = searcher.search(initial_state=initial_state)
+# print(bestAction)
