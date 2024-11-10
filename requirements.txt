@@ -1,7 +1,6 @@
 altair==5.4.1
 annotated-types==0.7.0
 ansicon==1.89.0
-attorney @ file:./attorney-2.0.0-py3-none-any.whl#sha256=155254781cd8e3b3576ff139fbf99c94668d9e61612b81ea22cf3829dec1f813
 attrs==24.2.0
 blessed==1.20.0
 blinker==1.8.2
@@ -11,6 +10,7 @@ charset-normalizer==3.4.0
 click==8.1.7
 colorama==0.4.6
 dnspython==2.7.0
+docker==7.1.0
 editor==1.6.6
 email_validator==2.2.0
 Flask==3.0.3
@@ -45,6 +45,7 @@ pydeck==0.9.1
 Pygments==2.18.0
 python-dateutil==2.9.0.post0
 pytz==2024.2
+pywin32==308
 PyYAML==6.0.2
 readchar==4.2.1
 referencing==0.35.1
