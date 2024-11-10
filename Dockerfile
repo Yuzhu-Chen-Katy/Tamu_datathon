@@ -1,6 +1,6 @@
 FROM python:3.9-slim
 
-WORKDIR ../
+WORKDIR /app
 
 # Install dependencies first to leverage caching
 COPY requirements.txt .
