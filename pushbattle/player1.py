@@ -3,7 +3,7 @@ from PushBattle import Game, PLAYER1, PLAYER2, EMPTY, BOARD_SIZE, NUM_PIECES, _t
 
 # Import This
 #from random_agent import RandomAgent
-from MCTSAgent import MCTSAgent
+from mcts.agent.MCTSAgent import MCTSAgent
 
 app = Flask(__name__)
 
@@ -69,8 +69,6 @@ def make_move():
     data = request.get_json()
     game_data = data.get('game')
     game = Game.from_dict(game_data)
-    board = data.get('board')
-    turn_count = data.get('turn_count')
     attempt_number = data.get('attempt_number')
     
     ##### MODIFY BELOW #####
@@ -79,7 +77,7 @@ def make_move():
     # This is where you'd call your minimax/MCTS/neural network/etc
 
     #move = agent.get_best_move(game)
-    move = agent.get_best_move(game)
+    move = agent.get_best_move(game, attempt_number)
 
     ###################
     
