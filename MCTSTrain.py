@@ -198,7 +198,6 @@ class MyState(BaseState):
         else:
           return -0.25
     else:
-      a
       return 0
 
   def get_current_player(self) -> int:
@@ -206,7 +205,7 @@ class MyState(BaseState):
 
 
 initial_state = MyState()
-searcher = MCTS(iteration_limit=20)
+searcher = MCTS(iteration_limit=30)
 
 for i in range(1000): #update number of times to train accordingly
   searcher.search(initial_state=initial_state)

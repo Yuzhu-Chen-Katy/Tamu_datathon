@@ -4,8 +4,8 @@ from PushBattle import Game, PLAYER1, PLAYER2, EMPTY, BOARD_SIZE, NUM_PIECES, _t
 # This simulates player 2 always playing random moves - you may modify to test locally
 
 # Import This
-from random_agent import RandomAgent
-#from MCTSAgent import MCTSAgent
+#from random_agent import RandomAgent
+from MCTSAgent import MCTSAgent
 
 app = Flask(__name__)
 
@@ -35,7 +35,7 @@ def start_game():
 
     ##### MODIFY BELOW #####
 
-    agent = RandomAgent()
+    agent = MCTSAgent()
 
     ###################
     
