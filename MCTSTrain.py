@@ -205,7 +205,7 @@ class MyState(BaseState):
 
 
 initial_state = MyState()
-searcher = MCTS(time_limit=20000)
+searcher = MCTS(time_limit=18000000)
 
 searcher.search(initial_state=initial_state)
 
