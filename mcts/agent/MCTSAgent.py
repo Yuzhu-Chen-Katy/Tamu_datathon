@@ -4,7 +4,7 @@ from mcts.base.base import BaseState
 
 class MCTSAgent():
   def __init__(self):
-    self.searcher = MCTS(4000)
+    self.searcher = MCTS(3800)
   
   def get_best_move(self, game):
     currentState = BaseState(game)
