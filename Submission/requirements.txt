@@ -1,7 +1,6 @@
 flask
 numpy
 future
-math
 random
 time
 copy
