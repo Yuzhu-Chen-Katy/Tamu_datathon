@@ -81,23 +81,6 @@ def make_move():
     #move = agent.get_best_move(game)
     move = agent.get_best_move(game)
 
-    """
-    import pickle
-    from mcts import mcts
-
-    # Load the saved MCTS tree
-    with open('mcts_tree.pkl', 'rb') as f:
-        mcts_searcher = pickle.load(f)
-
-    # Initialize the game state (it could be the same or a new one)
-    initial_state = GameState('initial_state')
-
-    # Now that the tree is loaded, we can immediately use it to predict the best action
-    best_action = mcts_searcher.search(initial_state=initial_state)
-
-    print(f"The best action after loading the tree is: {best_action}")
-    """
-
     ###################
     
     return jsonify({
