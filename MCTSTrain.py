@@ -46,14 +46,13 @@ class MyState(BaseState):
     moves = []
     current_pieces = self.p1_pieces if self.current_player == PLAYER1 else self.p2_pieces
     
-    if current_pieces < NUM_PIECES:
-      # placement moves
+    #have to place when there are 8 on the board
+    if current_pieces < NUM_PIECES: # placement moves
       for r in range(BOARD_SIZE):
         for c in range(BOARD_SIZE):
           if self.board[r][c] == EMPTY:
             moves.append((r, c))
-    else:
-      # movement moves
+    else: # movement moves
       for r0 in range(BOARD_SIZE):
         for c0 in range(BOARD_SIZE):
           if self.board[r0][c0] == self.current_player:
@@ -65,6 +64,11 @@ class MyState(BaseState):
 
   def take_action(self, action: any) -> 'BaseState':
     newState = deepcopy(self)
+    newState.turn_count += 1
+    if (newState.current_player == PLAYER1):
+      newState.current_player = PLAYER2
+    else:
+      newState.current_player = PLAYER1
 
     if (len(action) == 4): #if the action moves a piece already on the board
       newState.board[action[0]][action[1]] = EMPTY
@@ -72,7 +76,7 @@ class MyState(BaseState):
       newState.push_neighbors(action[2], action[3])
     elif (len(action) == 2): #if the action places a piece onto the board
       newState.board[action[0]][action[1]] = self.current_player
-      if newState.current_player == PLAYER1:
+      if self.current_player == PLAYER1:
         newState.p1_pieces += 1
       else:
         newState.p2_pieces += 1
@@ -172,12 +176,27 @@ class MyState(BaseState):
         tile = self.board[r][c]
     return (self.p1win or self.p2win)
 
+  #-10 to 10 scale
   def get_reward(self) -> float:
     if (self.is_terminal()):
       if (self.p1win):
-        return PLAYER1
+        if (self.turn_count < 5):
+          return 1
+        elif (self.turn_count < 10):
+          return 0.75
+        elif (self.turn_count < 15):
+          return 0.5
+        else:
+          return 0.25
       elif (self.p2win):
-        return PLAYER2
+        if (self.turn_count < 5):
+          return -1
+        elif (self.turn_count < 10):
+          return -0.75
+        elif (self.turn_count < 15):
+          return -0.5
+        else:
+          return -0.25
     else:
       return 0
 
@@ -186,9 +205,13 @@ class MyState(BaseState):
 
 
 initial_state = MyState()
-searcher = MCTS(time_limit=2000)
-for i in range(10):
-  searcher.search(initial_state=initial_state)
+searcher = MCTS(time_limit=20000)
+
+searcher.search(initial_state=initial_state)
+
+#update timelimit for agent usage
+searcher.timeLimit = 2000
+searcher.isTraining = False
 
 with open('MCTSTree.pkl', 'wb') as mctsFile:
   pickle.dump(searcher, mctsFile) 

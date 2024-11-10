@@ -5,6 +5,7 @@ from PushBattle import Game, PLAYER1, PLAYER2, EMPTY, BOARD_SIZE, NUM_PIECES, _t
 
 # Import This
 from random_agent import RandomAgent
+#from MCTSAgent import MCTSAgent
 
 app = Flask(__name__)
 
@@ -78,6 +79,7 @@ def make_move():
     # Move logic should go here
     # This is where you'd call your minimax/MCTS/neural network/etc
 
+    #move = agent.get_best_move(game)
     move = agent.get_best_move(game)
 
     ###################
