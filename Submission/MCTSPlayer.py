@@ -69,6 +69,7 @@ def make_move():
     data = request.get_json()
     game_data = data.get('game')
     game = Game.from_dict(game_data)
+    attempt_number = data.get('attempt_number')
     
     ##### MODIFY BELOW #####
 
@@ -76,7 +77,7 @@ def make_move():
     # This is where you'd call your minimax/MCTS/neural network/etc
 
     #move = agent.get_best_move(game)
-    move = agent.get_best_move(game)
+    move = agent.get_best_move(game, attempt_number)
 
     ###################
     
