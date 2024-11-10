@@ -1,13 +1,12 @@
-import pickle
-from MCTSTrain import MyState
+from mcts.searcher.mcts import MCTS
+from mcts.base.base import BaseState
 
 
 class MCTSAgent():
   def __init__(self):
-    with open('MCTSTree.pkl', 'rb') as f:
-      self.searcher = pickle.load(f)
+    self.searcher = MCTS(4000)
   
   def get_best_move(self, game):
-    currentState = MyState(game)
-    best_move = self.searcher.search(initial_state=currentState)
+    currentState = BaseState(game)
+    best_move = self.searcher.search(initial_state=currentState, turnCount=game.turn_count)
     return best_move
