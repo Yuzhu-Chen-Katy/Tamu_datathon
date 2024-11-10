@@ -205,10 +205,13 @@ class MyState(BaseState):
 
 
 initial_state = MyState()
-searcher = MCTS(time_limit=60000)
+searcher = MCTS(time_limit=20000)
+
+searcher.search(initial_state=initial_state)
 
 #update timelimit for agent usage
 searcher.timeLimit = 2000
+searcher.isTraining = False
 
 with open('MCTSTree.pkl', 'wb') as mctsFile:
   pickle.dump(searcher, mctsFile) 

@@ -41,15 +41,25 @@ class MCTS:
                  timeLimit=None,
                  iteration_limit: int = None,
                  iterationLimit=None,
-                 exploration_constant: float = None,
-                 explorationConstant=math.sqrt(2),
                  rollout_policy=None,
-                 rolloutPolicy=random_policy):
+                 rolloutPolicy=random_policy,
+                 isTraining=True):
         # backwards compatibility
         time_limit = timeLimit if time_limit is None else time_limit
         iteration_limit = iterationLimit if iteration_limit is None else iteration_limit
-        exploration_constant = explorationConstant if exploration_constant is None else exploration_constant
         rollout_policy = rolloutPolicy if rollout_policy is None else rollout_policy
+        
+        #exploration constant originally math.sqrt(2)
+        #implementing dynamic exploration constant
+        self.isTraining = True
+        if (isTraining):
+            self.initial_exploration_constant = 5.0
+            self.exploration_constant = 5.0
+        else:
+            self.initial_exploration_constant = math.sqrt(2)
+            self.exploration_constant = math.sqrt(2)
+        self.decay_factor=0.999
+        self.min_exploration_constant=0.1
 
         self.root = None
         if time_limit is not None:
@@ -66,22 +76,28 @@ class MCTS:
                 raise ValueError("Iteration limit must be greater than one")
             self.search_limit = iteration_limit
             self.limit_type = 'iterations'
-        self.exploration_constant = exploration_constant
         self.rollout_policy = rollout_policy
 
     def search(self, initialState: BaseState = None, initial_state: BaseState = None, needDetails: bool = False,
-               need_details: bool = None):
+               need_details: bool = None, turnCount = 0):
         initial_state = initialState if initial_state is None else initial_state
         need_details = needDetails if need_details is None else need_details
         self.root = TreeNode(initial_state, None)
 
+        i = 0
         if self.limit_type == 'time':
             time_limit = time.time() + self.timeLimit / 1000
             while time.time() < time_limit:
                 self.execute_round()
+                if (self.isTraining):
+                    self.exploration_constant = max(self.min_exploration_constant, self.initial_exploration_constant * self.decay_factor**i)
+                else:
+                    self.exploration_constant = max(self.min_exploration_constant,self.exploration_constant-0.1)
+                i += 1
         else:
             for i in range(self.search_limit):
                 self.execute_round()
+                self.exploration_constant = max(self.min_exploration_constant, self.initial_exploration_constant * self.decay_factor**i)
 
         best_child = self.get_best_child(self.root, 0)
         action = (action for action, node in self.root.children.items() if node is best_child).__next__()
